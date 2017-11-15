@@ -23,7 +23,7 @@
             <i class="zmdi zmdi-accounts tile-icon"></i>
         </article>
         <article class="full-width tile">
-            <a href="{{ route('provider.index') }}">
+            <a href="{{ route('provider.create') }}">
                 <div class="tile-text">
                     <span class="text-condensedLight">
                         7<br>
@@ -43,13 +43,15 @@
             <i class="zmdi zmdi-label tile-icon"></i>
         </article>
         <article class="full-width tile">
-            <div class="tile-text">
-                <span class="text-condensedLight">
-                    121<br>
-                    <small>Products</small>
-                </span>
-            </div>
-            <i class="zmdi zmdi-washing-machine tile-icon"></i>
+            <a href="{{ route('article.index') }}">
+                <div class="tile-text">
+                    <span class="text-condensedLight">
+                        121<br>
+                        <small>Productos</small>
+                    </span>
+                </div>
+                <i class="zmdi zmdi-washing-machine tile-icon"></i>
+            </a>
         </article>
         <article class="full-width tile">
             <div class="tile-text">

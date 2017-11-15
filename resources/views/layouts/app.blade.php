@@ -12,8 +12,8 @@
   <link href="{{ asset('css/material.min.css') }}" rel="stylesheet">
   <link href="{{ asset('css/material-design-iconic-font.min.css') }}" rel="stylesheet">    
   <link href="{{ asset('css/jquery.mCustomScrollbar.css') }}" rel="stylesheet">    
-  <link href="{{ asset('css/main.css') }}" rel="stylesheet">
   <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">    
+  <link href="{{ asset('css/main.css') }}" rel="stylesheet">
   {{-- <link href="/css/app.css" rel="stylesheet"> --}}
   
 </head>

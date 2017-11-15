@@ -122,6 +122,39 @@
                 </li>
             </ul>
         </li>
+        <li class="full-width">
+            <a href="#!" class="full-width btn-subMenu">
+                <div class="navLateral-body-cl">
+                    <i class="zmdi zmdi-washing-machine"></i>
+                </div>
+                <div class="navLateral-body-cr hide-on-tablet">
+                    PRODUCTOS
+                </div>
+                <span class="zmdi zmdi-chevron-left"></span>
+            </a>
+            <ul class="full-width menu-principal sub-menu-options">
+                <li class="full-width">
+                    <a href="{{ route('article.create') }}" class="full-width">
+                        <div class="navLateral-body-cl">
+                            <i class="zmdi zmdi-washing-machine"></i>
+                        </div>
+                        <div class="navLateral-body-cr hide-on-tablet">
+                            NUEVO
+                        </div>
+                    </a>
+                </li>
+                <li class="full-width">
+                    <a href="{{ route('article.index') }}" class="full-width">
+                        <div class="navLateral-body-cl">
+                            <i class="zmdi zmdi-accounts"></i>
+                        </div>
+                        <div class="navLateral-body-cr hide-on-tablet">
+                            LISTADO
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li class="full-width divider-menu-h"></li>
         <li class="full-width">
             <a href="products.html" class="full-width">
