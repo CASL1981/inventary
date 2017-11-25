@@ -90,7 +90,7 @@
                     <li class="text-condensedLight noLink" ><small>{{ Auth()->user()->firstname }}</small></li>
                     <li class="noLink">
                         <figure>
-                            <img src="{{ asset('assets/img/avatar-male.png') }}" alt="Avatar" class="img-responsive">
+                            <img src="{{ asset('assets/img').'/'.Auth()->user()->avatar }}" alt="Avatar" class="img-responsive">
                         </figure>
                     </li>
                 </ul>
@@ -106,7 +106,7 @@
             </div>
             <figure class="full-width" style="height: 77px;">
                 <div class="navLateral-body-cl">
-                    <img src="{{ asset('assets/img/avatar-male.png') }}" alt="Avatar" class="img-responsive">
+                    <img src="{{ asset('assets/img').'/'.Auth()->user()->avatar }}" alt="Avatar" class="img-responsive">
                 </div>
                 <figcaption class="navLateral-body-cr hide-on-tablet">
                     <span>
@@ -122,11 +122,13 @@
         </div>
     </section>
     <!-- pageContent -->
+    <div id="main">
+        @if ($_SERVER['REQUEST_URI'] == '/home')        
+            @include('menus.principales')
+        @else
+            @yield('desktop')
+        
+        @endif        
+    </div>
     
-    @if ($_SERVER['REQUEST_URI'] == '/home')        
-        @include('menus.principales')
-    @else
-        @yield('desktop')
-    
-    @endif
 @endsection

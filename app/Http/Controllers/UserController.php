@@ -12,11 +12,26 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {   
-    public function index()
+    
+    public function getLink()
     {
-    	$users = User::paginate(5);
-        
-    	return view('users.list', compact('users'));
+        return view('users.index');
+    }
+
+    public function index(Request $request)
+    {
+        $users = User::orderBy('id','DESC')->paginate(7);
+        return [
+            'pagination' => [
+                'total'         => $users->total(),
+                'current_page'  => $users->currentPage(),
+                'per_page'      => $users->perPage(),
+                'last_page'     => $users->lastPage(),
+                'from'          => $users->firstItem(),
+                'to'            => $users->lastItem(),
+            ],
+            'users' => $users
+        ];                   
     }
 
     public function create()
@@ -27,12 +42,13 @@ class UserController extends Controller
     public function edit($id)
     {
     	$user = User::findOrFail($id);    	
-    	
-    	return view('users.add', compact('user'));
+    	return response()->json($user);
+    	//return view('users.add', compact('user'));
     }
 
     public function store(User $user, Request $request)
     {    	
+        
     	$this->validate($request, [
 			'cc'        => 'required',
 			'firstname' => 'required|string|max:190',
@@ -46,17 +62,17 @@ class UserController extends Controller
         ]);
     	
     	$user->create([
-    		'cc'   => $request->get('cc'),
-			'firstname'   => $request->get('firstname'),
-			'lastname'    => $request->get('lastname'),
-			'role'    => $request->get('role'),
-			'email'       => $request->get('email'),
-			'area'        => $request->get('area'),
-			'nick' => $request->get('nick'),
-			'avatar'   => $request->get('avatar'),
-			'password'    => bcrypt($request->get('password')),			
-    	]);
-
+            'cc'        => $request->get('cc'),
+            'firstname' => $request->get('firstname'),
+            'lastname'  => $request->get('lastname'),
+            'role'      => $request->get('role'),
+            'email'     => $request->get('email'),
+            'area'      => $request->get('area'),
+            'nick'      => $request->get('nick'),
+            'avatar'    => $request->get('avatar'),
+            'password'  => bcrypt($request->get('password')),			
+    	]);            
+        
     	return Redirect()->back();
     }
 
@@ -71,17 +87,17 @@ class UserController extends Controller
 			'email'     => 'required|email',
 			'area'      => 'required|in:administracion,comercial,farmacia',
 			'nick'      => 'required|string|max:10',
-			'avatar'    => 'required',			
+			'avatar'    => 'required',
         ]);
 
-    	$user->cc = $request->cc;
-    	$user->firstname = $request->firstname;
-    	$user->lastname = $request->lastname;
-    	$user->role = $request->role;
-    	$user->email = $request->email;
-    	$user->area = $request->area;
-    	$user->nick = $request->nick;
-    	//$user->position_id = $request->position;
+        $user->cc        = $request->cc;
+        $user->firstname = $request->firstname;
+        $user->lastname  = $request->lastname;
+        $user->role      = $request->role;
+        $user->email     = $request->email;
+        $user->area      = $request->area;
+        $user->nick      = $request->nick;
+        $user->avatar    = $request->avatar;       
     	
     	$user->update();
 

@@ -45,7 +45,7 @@
                     </a>
                     <ul class="full-width menu-principal sub-menu-options">
                         <li class="full-width">
-                            <a href="{{ route('provider.create') }}" class="full-width">
+                            <a href="{{ route('linkprovider') }}" class="full-width">
                                 <div class="navLateral-body-cl">
                                     <i class="zmdi zmdi-account"></i>
                                 </div>
@@ -90,38 +90,15 @@
         </li>
         <li class="full-width divider-menu-h"></li>
         <li class="full-width">
-            <a href="#!" class="full-width btn-subMenu">
+            <a href="{{ route('linkuser') }}" class="full-width">
                 <div class="navLateral-body-cl">
                     <i class="zmdi zmdi-face"></i>
                 </div>
                 <div class="navLateral-body-cr hide-on-tablet">
                     USUARIOS
                 </div>
-                <span class="zmdi zmdi-chevron-left"></span>
             </a>
-            <ul class="full-width menu-principal sub-menu-options">
-                <li class="full-width">
-                    <a href="{{ route('user.create') }}" class="full-width">
-                        <div class="navLateral-body-cl">
-                            <i class="zmdi zmdi-account"></i>
-                        </div>
-                        <div class="navLateral-body-cr hide-on-tablet">
-                            NUEVO
-                        </div>
-                    </a>
-                </li>
-                <li class="full-width">
-                    <a href="{{ route('user.index') }}" class="full-width">
-                        <div class="navLateral-body-cl">
-                            <i class="zmdi zmdi-accounts"></i>
-                        </div>
-                        <div class="navLateral-body-cr hide-on-tablet">
-                            LISTADO
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </li>
+        </li>        
         <li class="full-width">
             <a href="#!" class="full-width btn-subMenu">
                 <div class="navLateral-body-cl">

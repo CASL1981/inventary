@@ -28,7 +28,9 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function(){
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::resource('user', 'UserController', ['except' => ['show', 'destroy']]);
+	Route::get('user/link', 'UserController@getLink')->name('linkuser');
 	Route::resource('provider', 'ProviderController', ['except' => ['show', 'destroy']]);
+	Route::get('provider/link', 'UserController@getLink')->name('linkprovider');
 	Route::resource('article', 'ArticleController', ['except' => ['show', 'destroy']]);
 });
 

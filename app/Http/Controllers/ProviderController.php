@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class ProviderController extends Controller
 {
+    public function getLink()
+    {
+        return view('providers.index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,9 +18,8 @@ class ProviderController extends Controller
      */
     public function index()
     {
-        $providers = Provider::paginate(5);
-        
-        return view('providers.list', compact('providers'));
+        $providers = Provider::paginate(5);       
+        return response()->json($providers);
     }
 
     /**

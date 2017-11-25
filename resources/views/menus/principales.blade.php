@@ -3,7 +3,7 @@
         <h3 class="text-center tittles">OPCIONES PRINCIPALES</h3>
         <!-- Tiles -->
         <article class="full-width tile">
-            <a href="{{ route('user.index') }}">
+            <a href="{{ route('linkuser') }}">
                 <div class="tile-text">
                     <span class="text-condensedLight">
                         2<br>
@@ -23,7 +23,7 @@
             <i class="zmdi zmdi-accounts tile-icon"></i>
         </article>
         <article class="full-width tile">
-            <a href="{{ route('provider.create') }}">
+            <a href="{{ route('linkprovider') }}">
                 <div class="tile-text">
                     <span class="text-condensedLight">
                         7<br>
