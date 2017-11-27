@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+    public function getLink()
+    {
+        return view('articles.index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,9 +19,19 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::paginate(5);
+        $articles = Article::orderBy('id', 'DESC')->paginate(10);
         
-        return view('articles.list', compact('articles'));
+        return [
+            'pagination' => [
+                'total'         => $articles->total(),
+                'current_page'  => $articles->currentPage(),
+                'per_page'      => $articles->perPage(),
+                'last_page'     => $articles->lastPage(),
+                'from'          => $articles->firstItem(),
+                'to'            => $articles->lastItem(),
+            ],
+            'articles' => $articles
+        ];  
     }
 
     /**
@@ -25,13 +39,13 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        $providers = article::pluck('description', 'id')->toArray();
-        $providers  = ['Selecc. Proveedor'] + $providers;
+    // public function create()
+    // {
+    //     $providers = article::pluck('description', 'id')->toArray();
+    //     $providers  = ['Selecc. Proveedor'] + $providers;
 
-        return view('articles.add', compact('providers'));
-    }
+    //     return view('articles.add', compact('providers'));
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -47,14 +61,14 @@ class ArticleController extends Controller
             'description' => $request->description,
             'make'        => $request->make,
             'provider_id' => $request->provider_id,
+            'um'          => $request->um,
             'ABC'         => $request->ABC,
             'stockmin'    => $request->stockmin,
             'stockmax'    => $request->stockmax,
             'residue'     => 0,
-            'um'          => $request->um,
             ]);
         
-        return Redirect()->back();
+        //return Redirect()->back();
     }    
 
     /**
@@ -63,11 +77,11 @@ class ArticleController extends Controller
      * @param  \App\article  $article
      * @return \Illuminate\Http\Response
      */
-    public function edit(Article $article)
+    public function edit($id)
     {
-        $providers = article::pluck('description', 'id')->toArray();
+        $article = Article::findOrFail($id);
 
-        return view('articles.add', compact('article', 'providers'));
+        return response()->json($article);
     }
 
     /**
@@ -84,16 +98,16 @@ class ArticleController extends Controller
         $article->description = $request->description;
         $article->make        = $request->make;
         $article->provider_id = $request->provider_id;
+        $article->um          = $request->um;
         $article->ABC         = $request->ABC;
         $article->stockmin    = $request->stockmin;
         $article->stockmax    = $request->stockmax;
-        $article->um    = $request->um;
         
         $article->update();
 
-        $articles = article::paginate(5);
+        // $articles = article::paginate(5);
         
-        return view('articles.list', compact('articles'));
+        // return view('articles.list', compact('articles'));
     }
 
 
@@ -103,9 +117,10 @@ class ArticleController extends Controller
      * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function destroy($id)
     {
-        //
+        $article = Article::findOrFail($id);
+        $article->delete();
     }
 
     public function validacion(Request $request)

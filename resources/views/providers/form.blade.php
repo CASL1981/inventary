@@ -27,7 +27,7 @@
         <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored bg-primary" id="btn-addAdmin" v-if="viewlabel" @click.prevent="storeProvider(datos)">
             <i class="zmdi zmdi-plus"></i>
         </button>
-        <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored bg-primary" id="btn-addAdmin" v-else @click.prevent="updateProvider(datos)">
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored bg-primary" id="btn-addAdmin" v-else @click.prevent="updateProvider(datos)" v-cloak>
               <i class="zmdi zmdi-plus"></i>
         </button>
         <div class="mdl-tooltip" for="btn-addAdmin">Add Proveedor</div>            

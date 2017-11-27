@@ -43,7 +43,7 @@
             <i class="zmdi zmdi-label tile-icon"></i>
         </article>
         <article class="full-width tile">
-            <a href="{{ route('article.index') }}">
+            <a href="{{ route('linkarticle') }}">
                 <div class="tile-text">
                     <span class="text-condensedLight">
                         121<br>

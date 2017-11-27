@@ -41,9 +41,9 @@ class UserController extends Controller
 
     public function edit($id)
     {
-    	$user = User::findOrFail($id);    	
+    	$user = User::findOrFail($id); 
+
     	return response()->json($user);
-    	//return view('users.add', compact('user'));
     }
 
     public function store(User $user, Request $request)
@@ -100,9 +100,8 @@ class UserController extends Controller
         $user->avatar    = $request->avatar;       
     	
     	$user->update();
+    	// $users = User::paginate(5);
 
-    	$users = User::paginate(5);
-
-    	return view('users.list', compact('users'));
+    	// return view('users.list', compact('users'));
     }
 }

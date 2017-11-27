@@ -18,8 +18,18 @@ class ProviderController extends Controller
      */
     public function index()
     {
-        $providers = Provider::paginate(5);       
-        return response()->json($providers);
+        $providers = Provider::orderBy('id', 'DESC')->paginate(10);
+        return [
+            'pagination' => [
+                'total'         => $providers->total(),
+                'current_page'  => $providers->currentPage(),
+                'per_page'      => $providers->perPage(),
+                'last_page'     => $providers->lastPage(),
+                'from'          => $providers->firstItem(),
+                'to'            => $providers->lastItem(),
+            ],
+            'providers' => $providers
+        ];  
     }
 
     /**
@@ -58,9 +68,11 @@ class ProviderController extends Controller
      * @param  \App\Provider  $provider
      * @return \Illuminate\Http\Response
      */
-    public function edit(Provider $provider)
+    public function edit($id)
     {
-        return view('providers.add', compact('provider'));
+        $provider = Provider::findOrFail($id);
+
+        return response()->json($provider);
     }
 
     /**
@@ -81,9 +93,9 @@ class ProviderController extends Controller
         
         $provider->update();
 
-        $providers = Provider::paginate(5);
+        // $providers = Provider::paginate(5);
         
-        return view('providers.list', compact('providers'));
+        // return view('providers.list', compact('providers'));
     }
 
     public function validacion(Request $request)
@@ -94,5 +106,12 @@ class ProviderController extends Controller
             'address'     => 'required|string|max:190',
             'phone'       => 'required|numeric',            
         ]);
+    }
+
+    public function getProviders(){
+
+        $providers = Provider::All();
+
+        return response()->json($providers);
     }
 }

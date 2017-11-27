@@ -7,6 +7,9 @@
       <div class="mdl-tabs__tab-bar">
         <a href="#tabNew" class="mdl-tabs__tab is-active" v-if="viewlabel" >NUEVO</a>
         <a href="#tabNew" class="mdl-tabs__tab is-active" v-else v-cloak>MODIFICAR</a>
+        <div v-else>
+          {{-- <a href="#" class="mdl-tabs__tab is-active" v-cloak @click.prevent="deleteArticle(datos)">ELIMINAR</a> --}}
+        </div>
         <a href="#tabList" class="mdl-tabs__tab" v-show="viewlabel">LISTADO</a>
       </div>
       <div class="mdl-tabs__panel is-active" id="tabNew">
@@ -14,16 +17,16 @@
           <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
             <div class="full-width panel mdl-shadow--2dp">
               <div class="full-width panel-tittle bg-primary text-center tittles" v-show="viewlabel">
-                Crear Proveedor
+                Crear Productos
               </div>
-               @include('providers.form')
+               @include('articles.form')
             </div>
           </div>
         </div>
       </div>
       <div class="mdl-tabs__panel" id="tabList" v-cloak v-show="viewlabel">
         <div class="mdl-grid">
-          @include('providers.list')
+          @include('articles.list')
         </div>
       </div>
     </div>
@@ -37,9 +40,11 @@
     var vm = new Vue({
       el:'#main',
       created(){
-        this.getProviders();        
+        this.getArticles();
+        this.getProviders();
       },
       data: {
+        articles:[],
         providers:[],
         datos:[],
         viewlabel: true,
@@ -81,88 +86,96 @@
           }
           return pagesArray;
         },
-        filterProvider() {
-          return this.providers.filter((provider) => provider.description.includes(this.search));
+        filterArticle() {
+          return this.articles.filter((article) => article.description.includes(this.search));
         }
       },
       methods: {
-        getProviders(page){
-          var url = '/provider?page='+page;
+        getArticles(page){
+          var url = '/article?page='+page;
           axios.get(url).then(response => {
-            this.providers = response.data.providers.data,
+            this.articles = response.data.articles.data,
             this.pagination = response.data.pagination
           });
         },
-        storeProvider(datos) {              
-              var url = '/provider';
-              axios.post(url, {
-                nit: datos.nit,
+        getProviders(){
+          let url = '/provider/list'
+          axios.get(url).then(response  => {
+            this.providers = response.data;
+          })
+        },
+        storeArticle(datos) {              
+              var url = '/article';
+              axios.post(url, {                
                 description: datos.description,
-                address: datos.address,
-                phone: datos.phone                
+                make: datos.make,
+                provider_id: datos.provider_id,
+                um: datos.um,
+                ABC: datos.ABC,
+                stockmin: datos.stockmin,
+                stockmax: datos.stockmax
               }).then(response => {
-                toastr.success('Proveedor creado correctamente');               
-                datos.nit = '';
+                toastr.success('Articulo creado correctamente');               
                 datos.description = '';
-                datos.address = '';
-                datos.phone = '';                
+                datos.make = '';
+                datos.provider_id = '';
+                datos.um = '';
+                datos.ABC = '';
+                datos.stockmin = '';
+                datos.stockmax = '';
                 this.viewlabel = true;
-                this.getProviders()
+                this.getArticles()
               }).catch(e => { 
                 // this.errorsStore = [];
                 //   this.errorsStore.push(e.response.data);
                 });
             },
-          getEditar(provider) {
-            var url = '/provider/' + provider.id + '/edit';
+          getEditar(article) {
+            var url = '/article/' + article.id + '/edit';
             axios.get(url).then(response => {
               this.viewlabel = false;
               this.datos = response.data;              
             });
           },
-          updateProvider(datos) {              
-              var url = '/provider/' + datos.id;
+          updateArticle(datos) {              
+              var url = '/article/' + datos.id;
               axios.put(url, {
-                nit: datos.nit,
                 description: datos.description,
-                address: datos.address,
-                phone: datos.phone                
+                make: datos.make,
+                provider_id: datos.provider_id,
+                um: datos.um,
+                ABC: datos.ABC,
+                stockmin: datos.stockmin,
+                stockmax: datos.stockmax
               }).then(response => {
-                toastr.success('Proveedor actualizado correctamente');               
-                datos.nit = '';
+                toastr.success('Articulo actualizado correctamente');               
                 datos.description = '';
-                datos.address = '';
-                datos.phone = '';                
+                datos.make = '';
+                datos.provider_id = '';
+                datos.um = '';
+                datos.ABC = '';
+                datos.stockmin = '';
+                datos.stockmax = '';               
                 this.viewlabel = true;
-                this.getProviders()
+                this.getArticles()
               }).catch(e => { 
                 // this.errorsStore = [];
                 //   this.errorsStore.push(e.response.data);
                 });
             },
+            deleteArticle(datos){
+              var url = '/article/' + datos.id;              
+              axios.delete(url).then(response => {
+                this.getArticles();
+                this.viewlabel = true;
+                toastr.success('Eliminado correctamente')
+              });
+            },
             changePage: function(page) {
               this.pagination.current_page = page;
-              this.getProviders(page);
+              this.getArticles(page);
             }
       }
     })
   </script>
 @endsection
-  {{-- <div>
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Created At</th>
-      </tr>
-      <tr>
-        <td>@{{ user.name }}</td>
-        <td>@{{ user.email }}</td>
-        <td>@{{ user.created_at }}</td>
-      </tr>
-    </table>
-    <vue-pagination  :pagination="pagination"
-                     v-on:click.native="getUsers(pagination.current_page)"
-                     :offset="4">
-    </vue-pagination>
-    </div> --}}
