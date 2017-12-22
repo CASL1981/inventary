@@ -33,4 +33,9 @@ class User extends Authenticatable
     {
         return $this->firstname." ".$this->lastname;
     }
+
+    public function inventories()
+    {
+        return $this.hasMany(Inventory::class);
+    }
 }

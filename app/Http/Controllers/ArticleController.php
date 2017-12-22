@@ -19,7 +19,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::orderBy('id', 'DESC')->paginate(10);
+        $articles = Article::orderBy('description', 'ASC')->paginate(10);
         
         return [
             'pagination' => [
@@ -31,21 +31,8 @@ class ArticleController extends Controller
                 'to'            => $articles->lastItem(),
             ],
             'articles' => $articles
-        ];  
+        ];
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function create()
-    // {
-    //     $providers = article::pluck('description', 'id')->toArray();
-    //     $providers  = ['Selecc. Proveedor'] + $providers;
-
-    //     return view('articles.add', compact('providers'));
-    // }
 
     /**
      * Store a newly created resource in storage.
@@ -104,10 +91,6 @@ class ArticleController extends Controller
         $article->stockmax    = $request->stockmax;
         
         $article->update();
-
-        // $articles = article::paginate(5);
-        
-        // return view('articles.list', compact('articles'));
     }
 
 
@@ -134,5 +117,12 @@ class ArticleController extends Controller
             'stockmax'    => 'required|numeric',
             'um'          => 'required'
         ]);
+    }
+
+    public function getArticles()
+    {
+        $articles = Article::select('id', 'description')->get();
+
+        return response()->json($articles);
     }
 }

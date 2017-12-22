@@ -112,6 +112,7 @@
                 provider_id: datos.provider_id,
                 um: datos.um,
                 ABC: datos.ABC,
+                typearticle: datos.typearticle,
                 stockmin: datos.stockmin,
                 stockmax: datos.stockmax
               }).then(response => {
@@ -121,6 +122,7 @@
                 datos.provider_id = '';
                 datos.um = '';
                 datos.ABC = '';
+                datos.typearticle = '';
                 datos.stockmin = '';
                 datos.stockmax = '';
                 this.viewlabel = true;
@@ -145,6 +147,7 @@
                 provider_id: datos.provider_id,
                 um: datos.um,
                 ABC: datos.ABC,
+                typearticle: datos.typearticle,
                 stockmin: datos.stockmin,
                 stockmax: datos.stockmax
               }).then(response => {
@@ -154,6 +157,7 @@
                 datos.provider_id = '';
                 datos.um = '';
                 datos.ABC = '';
+                datos.typearticle = '';
                 datos.stockmin = '';
                 datos.stockmax = '';               
                 this.viewlabel = true;

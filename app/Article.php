@@ -15,7 +15,11 @@ class Article extends Model
      * @var array
      */
     protected $fillable = [
-        'description', 'make', 'ABC','stockmin', 'stockmax', 'residue', 'status', 'provider_id', 'um'
+        'description', 'make', 'ABC','stockmin', 'stockmax', 'residue', 'status', 'provider_id', 'um', 'typearticle'
     ];
-    
+ 	
+ 	public function inventories()
+    {
+    	return $this->hasMany(Inventory::class);   	
+    }   
 }

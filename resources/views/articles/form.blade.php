@@ -30,6 +30,14 @@
             </select>
             <label class="mdl-textfield__label" for="area" id="labelABC" v-show="viewlabel">Selecione ABC</label>
         </div>
+        <div class="mdl-textfield mdl-js-textfield">
+            <select class="mdl-textfield__input" v-model='datos.typearticle' v-cloak>
+              <option value="aseo_cafeteria">Aseo y Cafeteria</option>
+              <option value="papeleria">Papeleria</option>
+              <option value="otros">Otros</option>
+            </select>
+            <label class="mdl-textfield__label" for="area" id="labelABC" v-show="viewlabel">Selecione Tipo de Articulo</label>
+        </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input class="mdl-textfield__input" type="number" pattern="-?[0-9]*(\.[0-9]+)?" placeholder="Stock Minimo" v-model='datos.stockmin'>
             <span class="mdl-textfield__error">Campo Numerico</span>
