@@ -31,7 +31,10 @@ class InventoryController extends Controller
     public function index()
     {
         $inventory = DB::table('articles')
-                        ->join('inventories', 'articles.id', '=', 'inventories.article_id')                        
+                        ->join('inventories', function($join){
+                            $join->on('articles.id', '=', 'inventories.article_id')
+                                ->where('inventories.status', 1);
+                        })                        
                         ->select('articles.description', 'articles.id', 'articles.residue', 'articles.status',
                             DB::raw('SUM(inventories.input) AS Entrada'), DB::raw('SUM(inventories.output) AS Salida'),
                             DB::raw('(articles.residue + SUM(inventories.input) - SUM(inventories.output)) AS saldoFinal'))
@@ -50,8 +53,7 @@ class InventoryController extends Controller
                 'to'            => $inventory->lastItem(),
             ],
             'inventory' => $inventory
-        ];  
-        // return response()->json($inventory);
+        ];          
     }
 
     /**
@@ -160,6 +162,7 @@ class InventoryController extends Controller
         $inventory = Inventory::where('input', '>', '0')
                     ->orderBy('id', 'DESC')
                     ->with('article')
+                    ->where('status', 0)
                     ->paginate(10);        
         
         return [
@@ -187,10 +190,26 @@ class InventoryController extends Controller
         echo("CP =".$inventario->getCP(4)."<br>");
     }
 
-    public function getSaldoArticle()
+    public function getSaldoArticle($id)
     {
         $inventario = new Inventory();
-        return $inventario->getSaldo();
+        return $inventario->getSaldo($id);
+    }
+
+    public function approveInput()
+    {
+        $item = DB::table('inventories')
+                ->where('input', '>', 0)
+                ->where('status', 0)
+                ->update(['status' => 1]);
+    }
+
+    public function approveOutput()
+    {
+        $item = DB::table('inventories')
+                ->where('output', '>', 0)
+                ->where('status', 0)
+                ->update(['status' => 1]);
     }
 
 }

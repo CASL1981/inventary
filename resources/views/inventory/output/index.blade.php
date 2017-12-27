@@ -10,14 +10,18 @@
 		        
 		        <div class="mdl-textfield mdl-js-textfield">
 		            <select class="mdl-textfield__input" v-model="DATO.article_id" v-cloak>
-		              <option v-for="article in articles" :value="article.id" v-text="article.description" ></option>		              
+		              <option v-for="article in articles" :value="article.id">
+		              	@{{ article.description}}
+            			@{{ article.um }}
+		              </option>		              
 		            </select>
 		            <label class="mdl-textfield__label" for="area" id="labelABC">Selecione Articulo</label>
 		        </div>
 		    </div>
 		    <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
 		        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-		            <input class="mdl-textfield__input" type="number" pattern="-?[0-9]*(\.[0-9]+)?" placeholder="Cantidad" v-model="DATO.output" @click="getSaldo(DATO.article_id)">
+		            <input class="mdl-textfield__input" type="number" pattern="-?[0-9]*(\.[0-9]+)?" placeholder="Cantidad" 
+		            v-model="DATO.output" @click="getSaldo(DATO.article_id)">
 		            <span class="mdl-textfield__error">Campo Numerico</span>
 		        </div>		        
 		    </div>
@@ -29,14 +33,7 @@
 				    <div class="mdl-tooltip" for="btn-addAdmin">Add Articulo</div>
 				</p>
 		    </div>
-		</div>				
-		
-				{{-- <ul v-if="errorsStore && errorsStore.length" class="text-danger">
-					<li v-for="error of errorsStore">@{{error.code[0]}}</li>
-					<li v-for="error of errorsStore">@{{error.description[0]}}</li>
-			    </ul> --}}
-
-
+		</div>	
 		<div class="mdl-grid">
 			<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
 				<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width table-responsive">
@@ -73,7 +70,7 @@
 			            </tr>			
 					</tbody>
 				</table>
-				<ul class="pagination" v-show="pagination.total > 1" v-cloak>
+				<ul class="pagination" v-show="pagination.last_page > 1" v-cloak>
 				    <li v-if="pagination.current_page > 1">
 				      <a href="#" @click.prevent="changePage(pagination.current_page - 1)">
 				        <span>Atras</span>
@@ -89,7 +86,16 @@
 				        <span>Siguiente</span>
 				      </a>
 				    </li>
-				  </ul>
+				</ul>
+				</br>
+				@if (auth()->user()->role != 'normal')
+					<p class="text-center">
+			    		<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored bg-primary" @click.prevent="updateOutput()">
+					    <i class="zmdi zmdi-check"></i>
+					    </button>				    
+					    <div class="mdl-tooltip" for="btn-addAdmin">Aprobar Salidas</div>
+				  	</p>					
+				@endif
 				</div>
 			</div>
 		</div>
@@ -157,8 +163,8 @@
 		    	getSalidas: function(page){		    		
 		    		var url = '/salida/list?page='+page;
 	                axios.get(url).then(response => {                        
-                        this.salidas = response.data.inventory.data,
-                        this.pagination = response.data.pagination
+						this.salidas    = response.data.inventory.data,
+						this.pagination = response.data.pagination
                     });
 		    	},
 		    	getSaldo: function (id) {
@@ -204,6 +210,7 @@
 			        		output: DATO.output,
 			        		article_id: DATO.article_id
 			        	}).then(response => {
+			        		this.getSaldo(DATO.article_id)
 			        		toastr.success('Articulo Descargado correctamente, nuevo SALDO: ' + (this.saldo - DATO.output));
 			        		DATO.output = '';
 			        		DATO.article_id = '';		        		
@@ -212,8 +219,6 @@
 			            	console.log(e.response);
 			            });		        		
 		        	}
-
-
 		        },
 		        updateSalida: function (salida, draft) {		            
 		            var url = '/inventory/' + draft.id;
@@ -228,6 +233,16 @@
 		            }).catch(e => {
 		            	this.errorsEdit = [];
 		            	this.errorsEdit.push(e.response.data);
+		            });
+		        },
+		        updateOutput: function(){
+		        	var url = '/inventario/approveoutput/';
+		            
+		            axios.get(url).then(response => {		            	
+						toastr.success('Todos los articulos fueron aprovados. ');
+						this.getSalidas()
+		            }).catch(e => {
+		            	toastr.error('Error al aprovar los articulos. ');
 		            });
 		        },
 	            changePage: function(page) {

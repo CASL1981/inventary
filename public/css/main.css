@@ -1049,9 +1049,7 @@ legend {
 }
 
 .mdl-list__item {
-	padding: 0px 20px 0px 20px;
-	/*padding-bottom: 0px;
-	padding-top: 0px;*/
+	padding: 0px 20px 0px 20px;	
 }
 
 .mdl-textfield {
@@ -1061,4 +1059,8 @@ legend {
 
 .mdl-textfield .mdl-button {
 	bottom: 0px;
+}
+
+.header-well, .header-well-icon, .header-well-text {
+	min-height: 0px;
 }

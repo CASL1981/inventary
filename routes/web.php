@@ -25,7 +25,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::group(['middleware' => 'role:edit'], function(){
 		Route::resource('provider', 'ProviderController', ['except' => ['show', 'destroy', 'edit']]);
 		Route::get('provider/link', 'ProviderController@getLink')->name('linkprovider');
-		
+		Route::get('inventario/approveinput', 'InventoryController@approveInput');
+		Route::get('inventario/approveoutput', 'InventoryController@approveOutput');
 	});
 
 	Route::get('/home', 'HomeController@index')->name('home');
@@ -40,5 +41,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('salida/list', 'InventoryController@getSalida');
 	Route::get('entrada', 'InventoryController@createEntrada');
 	Route::get('entrada/list', 'InventoryController@getEntrada');
+	Route::get('kardex/item', 'ReportController@linkKardex')->name('linkkardexitem');
+	Route::get('kardex/{id}', 'ReportController@KardexArticle');
+	Route::get('kardex', 'ReportController@index');
 	Route::get('prueba', 'InventoryController@getSaldoArticle');
 });

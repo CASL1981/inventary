@@ -121,7 +121,7 @@ class ArticleController extends Controller
 
     public function getArticles()
     {
-        $articles = Article::select('id', 'description')->get();
+        $articles = Article::select('id', 'description', 'make', 'um')->get();
 
         return response()->json($articles);
     }

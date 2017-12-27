@@ -10,7 +10,10 @@
 		        
 		        <div class="mdl-textfield mdl-js-textfield">
 		            <select class="mdl-textfield__input" v-model="DATO.article_id" v-cloak>
-		              <option v-for="article in articles" :value="article.id" v-text="article.description"></option>		              
+		              <option v-for="article in articles" :value="article.id">
+						@{{ article.description}}
+            			@{{ article.um }}
+			           </option>		              
 		            </select>
 		            <label class="mdl-textfield__label" for="area" id="labelABC">Selecione Articulo</label>
 		        </div>
@@ -29,14 +32,7 @@
 				    <div class="mdl-tooltip" for="btn-addAdmin">Add Articulo</div>
 				</p>
 		    </div>
-		</div>				
-		
-				{{-- <ul v-if="errorsStore && errorsStore.length" class="text-danger">
-					<li v-for="error of errorsStore">@{{error.code[0]}}</li>
-					<li v-for="error of errorsStore">@{{error.description[0]}}</li>
-			    </ul> --}}
-
-
+		</div>
 		<div class="mdl-grid">
 			<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
 				<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width table-responsive">
@@ -73,7 +69,7 @@
 			            </tr>			
 					</tbody>
 				</table>
-				<ul class="pagination" v-show="pagination.total > 1" v-cloak>
+				<ul class="pagination" v-show="pagination.last_page > 1" v-cloak>
 				    <li v-if="pagination.current_page > 1">
 				      <a href="#" @click.prevent="changePage(pagination.current_page - 1)">
 				        <span>Atras</span>
@@ -88,8 +84,17 @@
 				      <a href="#" @click.prevent="changePage(pagination.current_page + 1)">
 				        <span>Siguiente</span>
 				      </a>
-				    </li>
-				  </ul>
+				    </li>				
+				</ul>
+				</br>
+				@if (auth()->user()->role != 'normal')
+					<p class="text-center">
+			    		<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored bg-primary" @click.prevent="updateInput()">
+					    <i class="zmdi zmdi-check"></i>
+					    </button>				    
+					    <div class="mdl-tooltip" for="btn-addAdmin">Aprobar Entradas</div>
+				  	</p>					
+				@endif
 				</div>
 			</div>
 		</div>
@@ -213,6 +218,16 @@
 		            }).catch(e => {
 		            	this.errorsEdit = [];
 		            	this.errorsEdit.push(e.response.data);
+		            });
+		        },
+		        updateInput: function(){
+		        	var url = '/inventario/approveinput/';
+		            
+		            axios.get(url).then(response => {		            	
+						toastr.success('Todos los articulos fueron aprovados. ');
+						this.getEntradas()
+		            }).catch(e => {
+		            	toastr.error('Error al aprovar los articulos. ');
 		            });
 		        },
 	            changePage: function(page) {

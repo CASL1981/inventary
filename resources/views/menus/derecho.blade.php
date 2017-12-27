@@ -107,7 +107,7 @@
             </a>
             <ul class="full-width menu-principal sub-menu-options">
                 <li class="full-width">
-                    <a href="#!" class="full-width">
+                    <a href="{{ route('linkkardexitem') }}" class="full-width">
                         <div class="navLateral-body-cl">
                             <i class="zmdi zmdi-dehaze"></i>
                         </div>

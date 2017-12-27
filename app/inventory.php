@@ -86,11 +86,8 @@ class inventory extends Model
         return ($this->getCMX($id) * $this->Tr) + $this->getEMN($id);
     }
 
-    public function getSaldo($id = 1)
+    public function getSaldo($id)
     {
-        // return Article::select('residue')
-        //                 ->where('id', $id)
-        //                 ->get()[0]->residue;
         $saldo = DB::table('articles')
                         ->join('inventories', 'articles.id', '=', 'inventories.article_id')                        
                         ->select('articles.residue',
